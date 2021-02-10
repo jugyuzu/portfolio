@@ -7,19 +7,12 @@
 </head>
 <body>
     <div>
-        <p>会社の住所</p>
-        <form action="">
-        <!--
-            <p>郵便番号: <input type="text" name="adress" autocomplete="postal-code"></p>
-            <p>都道府県: <input type="text" name="adress" autocomplete="address-level1"></p>
-            <p>市区町村: <input type="text" name="adress" autocomplete="address-level2"></p>
-            <p>番地・マンション名: <input type="text" name="adress" autocomplete="address-line1"></p>
-            <p>会社名: <input type="text" name="adress" autocomplete="organization"></p> -->
-        </form>
-        住所
+        会社の住所: 
         <input type="text" id="address">
-        <button id="exec">お試し</button>
-        <button onclick="address2latlng()">住所をプロンプトで入力して緯度経度を求める</button>
+        <button id="exec"></button>
+    </div>
+    <div>
+        
     </div>
     <script src="https://cdn.geolonia.com/community-geocoder.js"></script>
     <script>

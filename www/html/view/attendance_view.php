@@ -18,7 +18,7 @@
             <button id="exec">設定</button>
         </div>
         <div>
-            <button v-on:click="arraive_work" >出社する</button>
+            <button id="arrive_work" >出社する</button>
             <!-- <button onclick="test()">出社する</button> -->
         </div>
         <div>
@@ -29,37 +29,40 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://cdn.geolonia.com/community-geocoder.js"></script>
     <script>
+        /*
         let get_arraive='';
         let lat        ='';
         let long       ='';
-
-        let app = new Vue({
-                el: '#app',
-                data: {
-                    arraive: get_arraive,
-                    lat: lat,
-                    long: long
+        */
+       
+       let app = new Vue({
+            el: '#app',
+            data: {
+                arraive: '',
+                lat: '',
+                long: ''
+            },
+            methods: {
+                appe: function(a, lt ,lg){
+                    arraive = a
+                    lat =  lt
+                    long =  lg
                 },
-                methods: {
-                    append: function(arraive, lat ,long){
-                        arraive: arraive,
-                        lat: lat,
-                        long: long
-                    },
-                    arraive_work: function(){
-                        navigator.geolocation.getCurrentPosition(succces, error);
-                    },
-                    succces: function(position){
-                        let date        = new Date();
-                        get_arraive = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-                        lat         = '緯度:'+ position.coords.latitude + ',';
-                        long        = '経度:'+ position.coords.longitude;
-                        this.append(get_arraive, lat, long);
-                    }
+                /*
+                arrive_work: function(){
+                    navigator.geolocation.getCurrentPosition(this.succce);
+                },*/
+                succce: function(position){
+                    let date        = new Date();
+                    get_arraive = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+                    lat         = '緯度:'+ position.coords.latitude + ',';
+                    long        = '経度:'+ position.coords.longitude;
+                    this.appe(get_arraive, lat, long);
                 }
-                
-                
-            })
+            }
+            
+        })
+        
         document.getElementById('exec').addEventListener('click', () => {
             //let log = document.getElementById('address').value;
             if (document.getElementById('address').value) {
@@ -70,7 +73,7 @@
                 console.log(address);
             }
         })
-        /*
+        
         document.getElementById('arrive_work').addEventListener('click', ()=>{
             navigator.geolocation.getCurrentPosition(succces, error);
         });
@@ -85,8 +88,8 @@
             get_arraive = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
             lat         = '緯度:'+ position.coords.latitude + ',';
             long        = '経度:'+ position.coords.longitude;
-            append(get_arraive, lat, long);
-            /*
+            //append(get_arraive, lat, long);
+            
             let app = new Vue({
                 el: '#app',
                 data: {
@@ -94,18 +97,20 @@
                     lat: lat,
                     long: long
                 }
+            
             })
-            */
-            /*
+            
+            
             Vue.component('diplay', {
                 template: `<div>
                             <p>出社時間:{{ arraive }}</p>
                             <p>出社場所:{{ lat }}, {{ long }}</p>
                             </div>`
             })
-            */
+            
             
         }
+        
 
         function error(){
             window.alert('失敗');

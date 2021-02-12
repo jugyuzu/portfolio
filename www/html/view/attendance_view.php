@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出勤確認アプリ</title>
-    <style type="text/css">
-        .none{
-            display:none;
-        }
-    </style>
 </head>
 <body>
     <div id="app">
@@ -18,99 +13,65 @@
             <button id="exec">設定</button>
         </div>
         <div>
-            <button v-on:click="arraive_work" >出社する</button>
+            <button onclick="arraive_work()">出社する</button>
             <!-- <button onclick="test()">出社する</button> -->
         </div>
         <div>
-            <p>出社時間:{{ arraive }}</p>
-            <p>出社場所:{{ lat }} {{ long }}</p>
+            <p>会社住所:<span id="company"></span></p>
+            <p>出社時間:<span id="time"></span></p>
+            <p>出社場所:<span id="place"></span></p>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://cdn.geolonia.com/community-geocoder.js"></script>
     <script>
-        let get_arraive='';
-        let lat        ='';
-        let long       ='';
-
-        let app = new Vue({
-                el: '#app',
-                data: {
-                    arraive: get_arraive,
-                    lat: lat,
-                    long: long
-                },
-                methods: {
-                    append: function(arraive, lat ,long){
-                        arraive: arraive,
-                        lat: lat,
-                        long: long
-                    },
-                    arraive_work: function(){
-                        navigator.geolocation.getCurrentPosition(succces, error);
-                    },
-                    succces: function(position){
-                        let date        = new Date();
-                        get_arraive = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-                        lat         = '緯度:'+ position.coords.latitude + ',';
-                        long        = '経度:'+ position.coords.longitude;
-                        this.append(get_arraive, lat, long);
-                    }
-                }
-                
-                
-            })
+        
+        
+        let place = "";
         document.getElementById('exec').addEventListener('click', () => {
             //let log = document.getElementById('address').value;
             if (document.getElementById('address').value) {
                 getLatLng(document.getElementById('address').value, latlng);
-                
             }
             function latlng(address) {
-                console.log(address);
+                let span = document.getElementById("company");
+                span.innerHTML = address.addr;
             }
         })
-        /*
-        document.getElementById('arrive_work').addEventListener('click', ()=>{
-            navigator.geolocation.getCurrentPosition(succces, error);
-        });
-        
-        function test() {
-            //alert('成功');
-            navigator.geolocation.getCurrentPosition(succces);
+
+        function arraive_work(){
+            navigator.geolocation.getCurrentPosition(get_arrive);
         }
-        
-        function succces(position){
-            let date        = new Date();
+        function get_arrive(position){
+            let date = new Date();
             get_arraive = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-            lat         = '緯度:'+ position.coords.latitude + ',';
-            long        = '経度:'+ position.coords.longitude;
-            append(get_arraive, lat, long);
-            /*
-            let app = new Vue({
-                el: '#app',
-                data: {
-                    arraive: get_arraive,
-                    lat: lat,
-                    long: long
+            //緯度
+            lat         = position.coords.latitude;
+            //経度
+            lng        = position.coords.longitude;
+
+            let span = document.getElementById("time");
+            span.innerHTML = get_arraive;
+
+            var geocoder = new google.maps.Geocoder();
+            latlng = new google.maps.LatLng(lat, lng);
+            alert('インスタンス作成');
+            geocoder.geocode({'latLng': latlng}, function(results, status) {
+                alert('ジオコード');
+                if (status == google.maps.GeocoderStatus.OK) {
+                    alert('成功');
+                    let place = document.getElementById("place");
+                    console.log(results);
+                    console.log(results[4]);
+                    place.innerHTML = 'あいう';
+                    place.innerHTML = results[4].formatted_address;
+                }
+                else {
+                    alert("エラー" + status);
                 }
             })
-            */
-            /*
-            Vue.component('diplay', {
-                template: `<div>
-                            <p>出社時間:{{ arraive }}</p>
-                            <p>出社場所:{{ lat }}, {{ long }}</p>
-                            </div>`
-            })
-            */
-            
         }
-
-        function error(){
-            window.alert('失敗');
-        }
-        
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5gyn8gIOSYNWSX3HxptvdTvB7SIJt1AQ"></script>
 </body>
 </html>

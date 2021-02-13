@@ -22,11 +22,8 @@
             <p>出社場所:<span id="place"></span></p>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://cdn.geolonia.com/community-geocoder.js"></script>
     <script>
-        
-        
         let place = "";
         document.getElementById('exec').addEventListener('click', () => {
             //let log = document.getElementById('address').value;
@@ -55,15 +52,10 @@
 
             var geocoder = new google.maps.Geocoder();
             latlng = new google.maps.LatLng(lat, lng);
-            alert('インスタンス作成');
             geocoder.geocode({'latLng': latlng}, function(results, status) {
-                alert('ジオコード');
                 if (status == google.maps.GeocoderStatus.OK) {
-                    alert('成功');
                     let place = document.getElementById("place");
                     console.log(results);
-                    console.log(results[4]);
-                    place.innerHTML = 'あいう';
                     place.innerHTML = results[4].formatted_address;
                 }
                 else {
